@@ -22,26 +22,28 @@ CFLAGS += -O0 -g                     \
 $(OBJDIR)/%.o : %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-all: cee_utils $(OBJS)
+all: release
+
+release: $(OBJS)
+
+$(OBJS): | $(OBJDIR)
+
+$(OBJDIR): | $(CEE_UTILS_DIR)
+	mkdir -p $(OBJDIR)/$(CEE_UTILS_DIR)
+$(LIBDIR):
+	mkdir -p $(LIBDIR)
+$(CEE_UTILS_DIR):
+	if [[ ! -d $@ ]]; then        \
+	  ./scripts/get-cee-utils.sh; \
+	fi
 
 echo:
 	@ echo "SRC: $(SRC)"
 	@ echo "CEE_UTILS_SRC: $(CEE_UTILS_SRC)"
 
-cee_utils: $(CEE_UTILS_OBJS) | $(CEE_UTILS_DIR)
-
-$(OBJS): | $(OBJDIR)
-
-$(CEE_UTILS_DIR):
-	if [[ ! -d $@ ]]; then        \
-	  ./scripts/get-cee-utils.sh; \
-	fi
-$(OBJDIR):
-	mkdir -p $(OBJDIR)/$(CEE_UTILS_DIR)
-$(LIBDIR):
-	mkdir -p $(LIBDIR)
-
 clean:
 	rm -rf $(OBJDIR)
+purge: clean
+	rm -rf $(CEE_UTILS_DIR)
 
 .PHONY: all clean cee_utils echo

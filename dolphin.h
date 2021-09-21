@@ -5,6 +5,7 @@
 extern "C" {
 #endif // __cplusplus
 
+#include "logconf.h"
 
 #ifdef __cplusplus
 }

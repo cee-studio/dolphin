@@ -2,15 +2,18 @@ PREFIX ?= /usr/local
 SHELL  := /bin/bash
 
 CC     ?= gcc
-OBJDIR := obj
-LIBDIR := lib
 
-SRC  := $(wildcard *.c)
-OBJS := $(SRC:%.c=$(OBJDIR)/%.o)
+OBJDIR  := obj
+LIBDIR  := lib
+TESTDIR := test
 
 CEE_UTILS_DIR  := cee-utils
 CEE_UTILS_SRC  := $(wildcard $(CEE_UTILS_DIR)/*.c) 
 CEE_UTILS_OBJS := $(CEE_UTILS_SRC:%.c=$(OBJDIR)/%.o)
+
+SRC  := $(wildcard *.c $(CEE_UTILS_DIR)/*)
+OBJS := $(SRC:%.c=$(OBJDIR)/%.o)
+LIB  := $(LIBDIR)/libdolphin.a
 
 
 CFLAGS += -O0 -g                     \
@@ -24,10 +27,17 @@ $(OBJDIR)/%.o : %.c
 
 all: release
 
-release: $(OBJS)
+test: release
+	$(MAKE) -C $(TESTDIR) -f test.mk
+
+release: $(OBJS) $(LIB)
 
 $(OBJS): | $(OBJDIR)
 
+$(LIB): $(OBJS) | $(LIBDIR)
+	$(AR) -cqsv $@ $?
+
+# Create/Fetch dependencies
 $(OBJDIR): | $(CEE_UTILS_DIR)
 	mkdir -p $(OBJDIR)/$(CEE_UTILS_DIR)
 $(LIBDIR):
@@ -42,8 +52,9 @@ echo:
 	@ echo "CEE_UTILS_SRC: $(CEE_UTILS_SRC)"
 
 clean:
-	rm -rf $(OBJDIR)
+	rm -rf $(OBJDIR) $(LIBDIR)
+	$(MAKE) -C $(TESTDIR) -f test.mk clean
 purge: clean
 	rm -rf $(CEE_UTILS_DIR)
 
-.PHONY: all clean cee_utils echo
+.PHONY: all clean cee_utils echo test

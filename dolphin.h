@@ -7,6 +7,9 @@ extern "C" {
 
 #include "logconf.h"
 
+struct dolphin* dolphin_init(const char token[]);
+void dolphin_cleanup(struct dolphin *client);
+
 #ifdef __cplusplus
 }
 #endif // __cplusplus

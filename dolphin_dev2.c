@@ -1,4 +1,4 @@
-/* This file will be later merged together with dolphin_dev2.c */
+/*   This file will be later merged together with dolphin.c    */
 /* Encompasses function for mantaining a WebSockets connection */
 
 #include "curl-websocket.h"

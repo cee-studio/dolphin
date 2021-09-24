@@ -9,6 +9,7 @@ int main(void)
 {
   char     token[128+1]="";
   uint64_t channel_id=0;
+  setvbuf(stdout, NULL, _IONBF, 0);
 
   fputs("Provide a valid bot token: ", stdout);
   scanf("%128s", token);

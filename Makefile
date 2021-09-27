@@ -11,7 +11,7 @@ CEE_UTILS_DIR  := cee-utils
 CEE_UTILS_SRC  := $(wildcard $(CEE_UTILS_DIR)/*.c) 
 CEE_UTILS_OBJS := $(CEE_UTILS_SRC:%.c=$(OBJDIR)/%.o)
 
-SRC  := dolphin.c $(wildcard $(CEE_UTILS_DIR)/*)
+SRC  := dolphin.c curl-websocket.c curl-websocket-utils.c $(wildcard $(CEE_UTILS_DIR)/*)
 OBJS := $(SRC:%.c=$(OBJDIR)/%.o)
 LIB  := $(LIBDIR)/libdolphin.a
 

@@ -5,7 +5,7 @@ SRC   = $(wildcard *.c)
 EXES  = $(filter %.out, $(SRC:.c=.out))
 
 CFLAGS  = -fno-exceptions -g -I$(TOP)/ -I$(TOP)/cee-utils
-LDFLAGS = -L$(TOP)/lib -ldolphin -lm -lcurl
+LDFLAGS = -L$(TOP)/lib -ldolphin -lm -lcurl -lcrypto
 
 # generic compilation
 %.out: %.c

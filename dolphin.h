@@ -8,6 +8,7 @@ extern "C" {
 #define DOLPHIN_BASE_URL "https://discord.com/api/v9"
 
 struct dolphin* dolphin_init(const char token[]);
+void dolphin_run(struct dolphin *client);
 void dolphin_cleanup(struct dolphin *client);
 
 void dolphin_POST(struct dolphin *client, const char endpoint[], const char body[]);

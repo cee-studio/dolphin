@@ -44,6 +44,8 @@ struct dolphin {
 /* REST FIELDS */
   struct curl_slist *req_header; ///< the request header
   CURL              *ehandle;    ///< the curl's easy handle used to perform requests
+  CURLM             *mhandle;    ///< the curl's multiplexer for performing non-blocking requests
+  CURL              *cwshandle;  ///< the curl's web socket handler
   char errbuf[CURL_ERROR_SIZE];  ///< capture curl error messages
 
   struct dolphin_request_url     url;    ///< the request url

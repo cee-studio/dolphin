@@ -169,24 +169,63 @@ reset_adapter(struct dolphin *client)
   client->header.length = 0;
   client->header.size = 0;
   *client->errbuf = '\0';
+  // resets any preexisting CUSTOMREQUEST
+  curl_easy_setopt(client->ehandle, CURLOPT_CUSTOMREQUEST, NULL);
+}
+
+void
+dolphin_DELETE(struct dolphin *client, const char endpoint[], const char body[])
+{
+  if (NULL == body) body = "";
+  set_url(client, endpoint); //set the request url
+  curl_easy_setopt(client->ehandle, CURLOPT_CUSTOMREQUEST, "DELETE");
+  curl_easy_setopt(client->ehandle, CURLOPT_POSTFIELDS, body);
+  curl_easy_setopt(client->ehandle, CURLOPT_POSTFIELDSIZE, strlen(body));
+  perform_request(client);
+  reset_adapter(client); // reset for next iteration
+}
+
+void
+dolphin_GET(struct dolphin *client, const char endpoint[])
+{
+  set_url(client, endpoint); //set the request url
+  curl_easy_setopt(client->ehandle, CURLOPT_HTTPGET, 1L);
+  perform_request(client);
+  reset_adapter(client); // reset for next iteration
 }
 
 void
 dolphin_POST(struct dolphin *client, const char endpoint[], const char body[])
 {
-  // resets any preexisting CUSTOMREQUEST
-  curl_easy_setopt(client->ehandle, CURLOPT_CUSTOMREQUEST, NULL);
-  if (NULL == body) {
-    body = "";
-  }
-
+  if (NULL == body) body = "";
   set_url(client, endpoint); //set the request url
-
   curl_easy_setopt(client->ehandle, CURLOPT_POST, 1L);
   curl_easy_setopt(client->ehandle, CURLOPT_POSTFIELDS, body);
   curl_easy_setopt(client->ehandle, CURLOPT_POSTFIELDSIZE, strlen(body));
-
   perform_request(client);
+  reset_adapter(client); // reset for next iteration
+}
 
+void
+dolphin_PATCH(struct dolphin *client, const char endpoint[], const char body[])
+{
+  if (NULL == body) body = "";
+  set_url(client, endpoint); //set the request url
+  curl_easy_setopt(client->ehandle, CURLOPT_CUSTOMREQUEST, "PATCH");
+  curl_easy_setopt(client->ehandle, CURLOPT_POSTFIELDS, body);
+  curl_easy_setopt(client->ehandle, CURLOPT_POSTFIELDSIZE, strlen(body));
+  perform_request(client);
+  reset_adapter(client); // reset for next iteration
+}
+
+void
+dolphin_PUT(struct dolphin *client, const char endpoint[], const char body[])
+{
+  if (NULL == body) body = "";
+  set_url(client, endpoint); //set the request url
+  curl_easy_setopt(client->ehandle, CURLOPT_CUSTOMREQUEST, "PUT");
+  curl_easy_setopt(client->ehandle, CURLOPT_POSTFIELDS, body);
+  curl_easy_setopt(client->ehandle, CURLOPT_POSTFIELDSIZE, strlen(body));
+  perform_request(client);
   reset_adapter(client); // reset for next iteration
 }

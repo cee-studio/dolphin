@@ -12,7 +12,11 @@ struct dolphin* dolphin_init(const char token[]);
 void dolphin_run(struct dolphin *client);
 void dolphin_cleanup(struct dolphin *client);
 
+void dolphin_DELETE(struct dolphin *client, const char endpoint[], const char body[]);
+void dolphin_GET(struct dolphin *client, const char endpoint[]);
 void dolphin_POST(struct dolphin *client, const char endpoint[], const char body[]);
+void dolphin_PATCH(struct dolphin *client, const char endpoint[], const char body[]);
+void dolphin_PUT(struct dolphin *client, const char endpoint[], const char body[]);
 
 #ifdef __cplusplus
 }

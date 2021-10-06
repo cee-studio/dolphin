@@ -11,10 +11,7 @@
 
 
 void dolphin_on_connect(void *data, CURL *easy, const char *websocket_protocols) {
-    struct dolphin* client = data;
-
     fprintf(stderr, "Connected to Websocket with assigned protocols: %s\n", websocket_protocols) ;
-
 }
 
 void
